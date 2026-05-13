@@ -23,7 +23,7 @@ public class Item {
 	@Column(name="item_name")
 	private String itemName;
 	@Column(name="item_price")
-	private String itemPrice;
+	private double itemPrice;
 	@Column(name="image_data")
 	private byte[] imageData;
 	@ManyToOne
