@@ -44,8 +44,12 @@ public class ItemOrderController {
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<ItemOrder> getItemOrderById(@PathVariable("/{id}") int id) {
-		return iItemOrderService.getById(id);
+	public ItemOrder getItemOrderById(@PathVariable("id") int id) {
+		Optional<ItemOrder> dbItemOrder = iItemOrderService.getById(id);
+		if (dbItemOrder.isEmpty()) {
+			throw new ResourceNotFoundException("ItemOrder", "itemOrderId", String.valueOf(id));
+		}
+		return dbItemOrder.get();
 	}
 	
 	@PostMapping("/placeorder")
@@ -73,7 +77,7 @@ public class ItemOrderController {
 		//save order to the database without itemOrderDetailsList, and the totalAmount is default 0
 		iItemOrderService.add(itemOrder);
 		//if itemOrderDetailsList of dto is not empty, get the information and add the objects to the list
-		if (!itemOrderRequestDto.getItemOrderDetailsList().isEmpty()) {
+		if (itemOrderRequestDto.getItemOrderDetailsList() != null && itemOrderRequestDto.getItemOrderDetailsList().size() > 0) {
 			//create a new empty itemOrderDetailsList
 			List<ItemOrderDetails> itemOrderDetailsList = new ArrayList<>();
 			int itemOrderDetailsId = 0;

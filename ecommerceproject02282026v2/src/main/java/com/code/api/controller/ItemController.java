@@ -42,12 +42,12 @@ public class ItemController {
 	}
 	
 	@PostMapping("/create")
-	public Item createItem(@RequestBody Item item) {
+	public Item createItem(@Valid @RequestBody Item item) {
 		return iItemService.add(item);
 	}
 	
 	@PutMapping("/edit")
-	public Item editItem(@RequestBody Item item) {
+	public Item editItem(@Valid @RequestBody Item item) {
 		return iItemService.update(item);
 	}
 	
@@ -57,8 +57,8 @@ public class ItemController {
 		if (dbItem.isEmpty()) {
 			throw new ResourceNotFoundException("Item", "itemId", String.valueOf(id));
 		}
-		Item item = new Item();
-		if (!itemDto.getItemName().isBlank()) {
+		Item item = dbItem.get();
+		if (itemDto.getItemName() != null && !itemDto.getItemName().isBlank()) {
 			item.setItemName(itemDto.getItemName());
 		}
 		if (itemDto.getItemPrice() > 0) {

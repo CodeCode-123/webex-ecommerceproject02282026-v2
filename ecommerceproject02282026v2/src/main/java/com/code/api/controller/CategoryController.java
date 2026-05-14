@@ -52,12 +52,12 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/create")
-	public Category createCategory(Category category) {
+	public Category createCategory(@Valid @RequestBody Category category) {
 		return iCategoryService.add(category);
 	}
 	
 	@PutMapping("/edit")
-	public Category editCategory(Category category) {
+	public Category editCategory(@Valid @RequestBody Category category) {
 		return iCategoryService.update(category);
 	}
 	
@@ -67,12 +67,12 @@ public class CategoryController {
 		if (dbCategory.isEmpty()) {
 			throw new ResourceNotFoundException("Category", "categoryId", String.valueOf(id));
 		}
-		Category category = new Category();
-		if (!categoryDto.getCategoryName().isBlank()) {
+		Category category = dbCategory.get();
+		if (categoryDto.getCategoryName() != null && !categoryDto.getCategoryName().isBlank()) {
 			category.setCategoryName(categoryDto.getCategoryName());
 		}
-		if (!categoryDto.getCategoryDesc().isBlank()) {
-			category.setCategoryDesc(categoryDto.getCategoryName());
+		if (categoryDto.getCategoryDesc() != null && !categoryDto.getCategoryDesc().isBlank()) {
+			category.setCategoryDesc(categoryDto.getCategoryDesc());
 		}
 		return iCategoryService.update(category);
 	}

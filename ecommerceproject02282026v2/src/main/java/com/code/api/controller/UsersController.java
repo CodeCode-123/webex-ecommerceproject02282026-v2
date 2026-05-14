@@ -78,7 +78,7 @@ public class UsersController {
 	}
 	
 	@PutMapping("/edit")
-	public Users editUsers(@RequestBody Users users) {
+	public Users editUsers(@Valid @RequestBody Users users) {
 		//retrieve from the database by id
 		Optional<Users> dbUsers = iUsersService.getById(users.getUsersId());
 		//if not found, throw exception
@@ -98,17 +98,17 @@ public class UsersController {
 			throw new ResourceNotFoundException("Users", "usersId", String.valueOf(id));
 		}
 		//create new users, and set each field if the field got from dto is not empty
-		Users users = new Users();
-		if (!usersDto.getFirstName().isBlank()) {
+		Users users = dbUsers.get();
+		if (usersDto.getFirstName() != null && !usersDto.getFirstName().isBlank()) {
 			users.setFirstName(usersDto.getFirstName());
 		}
-		if (!usersDto.getLastName().isBlank()) {
+		if (usersDto.getLastName() != null && !usersDto.getLastName().isBlank()) {
 			users.setLastName(usersDto.getLastName());
 		}
-		if (!usersDto.getGender().isBlank()) {
+		if (usersDto.getGender() != null && !usersDto.getGender().isBlank()) {
 			users.setGender(usersDto.getGender());
 		}
-		if (!usersDto.getCountry().isBlank()) {
+		if (usersDto.getCountry() != null && !usersDto.getCountry().isBlank()) {
 			users.setCountry(usersDto.getCountry());
 		}
 		if (usersDto.getLanguages() != null && usersDto.getLanguages().length > 0) {

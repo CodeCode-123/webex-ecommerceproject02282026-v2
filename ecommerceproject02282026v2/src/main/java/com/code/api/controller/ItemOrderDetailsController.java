@@ -84,7 +84,7 @@ public class ItemOrderDetailsController {
 			throw new ResourceNotFoundException("ItemOrderDetails", "itemOrderDetailsId", String.valueOf(id));
 		}
 		//create a new itemOrderDetails, retrieve that from the database by id, if found, set the object
-		ItemOrderDetails itemOrderDetails = new ItemOrderDetails();
+		ItemOrderDetails itemOrderDetails = dbItemOrderDetails.get();
 		if (itemOrderDetailsDto.getItemOrder() != null && itemOrderDetailsDto.getItemOrder().getItemOrderId() > 0) {
 			int itemOrderId = itemOrderDetailsDto.getItemOrder().getItemOrderId();
 			Optional<ItemOrder> dbItemOrder = iItemOrderService.getById(itemOrderId);
@@ -93,8 +93,10 @@ public class ItemOrderDetailsController {
 			}
 			itemOrderDetails.setItemOrder(dbItemOrder.get());
 		}
-		double price = 0;
-		//retrieve item from database by id, if found, set the object and set the price 
+		//set the default price equals the current itemOrderDetails item price
+		double price = itemOrderDetails.getItem().getItemPrice();
+		//retrieve item from database by dto itemId, if found, set the object and set the price
+		//if the dto changed the item or itemId, get a new price of the item from the dto
 		if (itemOrderDetailsDto.getItem() != null && itemOrderDetailsDto.getItem().getItemId() > 0) {
 			int itemId = itemOrderDetailsDto.getItem().getItemId();
 			Optional<Item> dbItem = iItemService.getById(itemId);
@@ -104,16 +106,15 @@ public class ItemOrderDetailsController {
 			itemOrderDetails.setItem(dbItem.get());
 			price = dbItem.get().getItemPrice();
 		}
-		//set the qty using the dto
-		int qty = 0;
+		//set the default qty equals the current itemOrderDetails qty
+		int qty = itemOrderDetails.getQty();
+		//if the dto qty > 0, set the qty equals the dto qty
 		if (itemOrderDetailsDto.getQty() > 0) {
 			qty = itemOrderDetailsDto.getQty();
 			itemOrderDetails.setQty(qty);
 		}
-		//if qty * price <= 0, get the itemValue from the dto, otherwise, calculate the itemValue
-		if (qty * price <= 0) {
-			itemOrderDetails.setItemValue(itemOrderDetailsDto.getItemValue());
-		} else {
+		//calculate the itemValue
+		if (qty * price > 0) {
 			itemOrderDetails.setItemValue(qty * price);
 		}
 		//update the item and save to the database
