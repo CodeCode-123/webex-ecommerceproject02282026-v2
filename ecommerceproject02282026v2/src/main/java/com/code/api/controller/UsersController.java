@@ -44,8 +44,8 @@ public class UsersController {
 		return dbUsers.get();
 	}
 	
-	@GetMapping("/search/{emaiId}")
-	public Users getUsersByEmailId(@PathVariable String emailId) {
+	@GetMapping("/search/{emailId}")
+	public Users getUsersByEmailId(@PathVariable("emailId") String emailId) {
 		//retrieve from the database, if not found, throw exception
 		Optional<Users> dbUsers = iUsersService.getByEmailId(emailId);
 		if (dbUsers.isEmpty()) {

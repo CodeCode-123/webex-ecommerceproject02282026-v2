@@ -17,5 +17,6 @@ public class ItemOrderRequestDto {
 	@Min(value=0, message="Total amount should not be negative")
 	private double totalAmount;
 	private Users users;
-	private List<ItemOrderDetails> itemOrderDetailsList;
+	//private List<ItemOrderDetails> itemOrderDetailsList;
+	private CartItems cartItems;
 }

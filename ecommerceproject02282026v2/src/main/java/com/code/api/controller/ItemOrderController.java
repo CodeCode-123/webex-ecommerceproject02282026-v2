@@ -76,8 +76,10 @@ public class ItemOrderController {
 		itemOrder.setItemOrderDate(formatterDate);
 		//save order to the database without itemOrderDetailsList, and the totalAmount is default 0
 		iItemOrderService.add(itemOrder);
-		//if itemOrderDetailsList of dto is not empty, get the information and add the objects to the list
-		if (itemOrderRequestDto.getItemOrderDetailsList() != null && itemOrderRequestDto.getItemOrderDetailsList().size() > 0) {
+		//if cartItems of dto is not null, get the information and add the objects to the list
+		if (itemOrderRequestDto.getCartItems() != null && 
+				itemOrderRequestDto.getCartItems().getItemOrderDetailsList() != null &&
+				!itemOrderRequestDto.getCartItems().getItemOrderDetailsList().isEmpty()) {
 			//create a new empty itemOrderDetailsList
 			List<ItemOrderDetails> itemOrderDetailsList = new ArrayList<>();
 			int itemOrderDetailsId = 0;
@@ -86,7 +88,7 @@ public class ItemOrderController {
 			double price = 0;
 			double totalAmount = 0;
 			//iterate the itemOrderDetailsList of the dto
-			for (ItemOrderDetails details: itemOrderRequestDto.getItemOrderDetailsList()) {
+			for (ItemOrderDetails details: itemOrderRequestDto.getCartItems().getItemOrderDetailsList()) {
 				//get the id, and retrieve the object from the database
 				itemOrderDetailsId = details.getItemOrderDetailsId();
 				if (itemOrderDetailsId == 0) {
