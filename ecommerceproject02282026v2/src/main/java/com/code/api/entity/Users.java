@@ -1,5 +1,12 @@
 package com.code.api.entity;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +21,7 @@ import lombok.Setter;
 @Table(name="users")
 @Getter
 @Setter
-public class Users {
+public class Users implements UserDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="users_id")
@@ -38,4 +45,13 @@ public class Users {
 	private String password;
 	@Column(name="role", length=20)
 	private String role="Customer";
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(this.role));
+	}
+	@Override
+	public String getUsername() {
+		return emailId;
+	}
 }
