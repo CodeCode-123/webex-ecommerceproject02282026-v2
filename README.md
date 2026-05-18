@@ -271,7 +271,8 @@
 
 3. Name: GetAllItemOrders, Method: GET, URL: http://localhost:8185/api/orders/
 4. Name: GetItemOrdersById, Method: GET, URL: http://localhost:8185/api/orders/1
-5. Name: DeleteItemOrdersById, Method: DELETE, URL: http://localhost:8185/api/orders/delete/2
+5. Name: GetItemOrderByRazorpayOrderId, Method: GET, URL: http://localhost:8185/api/orders/razorpay/{razorpayOrderId}
+6. Name: DeleteItemOrdersById, Method: DELETE, URL: http://localhost:8185/api/orders/delete/2
 
 ### Payment:
 
@@ -310,3 +311,6 @@
   "paymentId": "txn_1779066699068"
 }
 ```
+
+4. Name: GetAllPayments, Method: GET, URL: http://localhost:8185/api/payment/
+5. Name: GetPaymentById, Method: GET, URL: http://localhost:8185/api/payment/1
