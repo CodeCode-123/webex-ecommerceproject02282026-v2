@@ -272,3 +272,41 @@
 3. Name: GetAllItemOrders, Method: GET, URL: http://localhost:8185/api/orders/
 4. Name: GetItemOrdersById, Method: GET, URL: http://localhost:8185/api/orders/1
 5. Name: DeleteItemOrdersById, Method: DELETE, URL: http://localhost:8185/api/orders/delete/2
+
+### Payment:
+
+1. Name: CreateOrderPayment, (ensure that there is a user with id=1 and an item order details with itemOrderDetailsId=1 in the database, get the users' information and item order details' information during retrieving), Method: POST, URL: http://localhost:8185/api/payment/createorder, RequestBody:
+
+```json
+{
+  "users": {
+    "usersId": 1
+  },
+  "cartItems": {
+    "itemOrderDetailsList": [
+      {
+        "itemOrderDetailsId": 1
+      }
+    ]
+  }
+}
+```
+
+2. Name: ConfirmPayment, (ensure that there is response information of the CreateOrderPayment method, and the Razorpay Key Secret generated in your account), Method: POST, URL: http://localhost:8185/api/payment/confirmpayment, RequestBody:
+
+```json
+{
+    "razorpay_order_id": "order_Sqdo9RCTxnI0dp",
+    "razorpay_payment_id": "txn_1779066699068",
+    "razorpay_signature": [your own generated signature in the TestSignature]
+}
+```
+
+3. Name: TestSignature, (ensure that there is a Razorpay Key Secret generated in your account), Method: GET, URL: http://localhost:8185/api/payment/test-signature, RequestBody:
+
+```json
+{
+  "orderId": "order_Sqdo9RCTxnI0dp",
+  "paymentId": "txn_1779066699068"
+}
+```
