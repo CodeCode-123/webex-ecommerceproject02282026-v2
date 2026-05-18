@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,4 +38,7 @@ public class ItemOrder {
 	private Users users;
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="itemOrder", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<ItemOrderDetails> itemOrderDetailsList;
+	@OneToOne(mappedBy="itemOrder", cascade= {CascadeType.PERSIST, CascadeType.DETACH, 
+			CascadeType.MERGE, CascadeType.REFRESH})
+	private Payment payment;
 }
