@@ -46,28 +46,10 @@ public class UsersServiceTest {
 	
 	@BeforeEach
 	public void beforeEach() {
-		//set user one ToSave
-		userOneToSave.setEmailId("admin@abc.com");
-		userOneToSave.setFirstName("Admin");
-		userOneToSave.setLastName("Admin");
-		userOneToSave.setPassword("123456");
-		//set user one Saved
-		userOneSaved.setUsersId(1);
-		userOneSaved.setEmailId("admin@abc.com");
-		userOneSaved.setFirstName("Admin");
-		userOneSaved.setLastName("Admin");
-		userOneSaved.setPassword("123456");
-		//set user two ToSave
-		userTwoToSave.setEmailId("customer@abc.com");
-		userTwoToSave.setFirstName("Customer");
-		userTwoToSave.setLastName("Customer");
-		userTwoToSave.setPassword("123456");
-		//set user two Saved
-		userTwoSaved.setUsersId(2);
-		userTwoSaved.setEmailId("customer@abc.com");
-		userTwoSaved.setFirstName("Customer");
-		userTwoSaved.setLastName("Customer");
-		userTwoSaved.setPassword("123456");
+		setUserOneToSave();
+		setUserTwoToSave();
+		setUserOneSaved();
+		setUserTwoSaved();
 	}
 	
 	public UsersServiceTest() {
@@ -85,12 +67,7 @@ public class UsersServiceTest {
 	
 	@Test
 	void testUpdateUsers() {
-		//set user one updated
-		userOneUpdated.setUsersId(1);
-		userOneUpdated.setEmailId("admin1@abc.com");
-		userOneUpdated.setFirstName("Admin1");
-		userOneUpdated.setLastName("Admin1");
-		userOneUpdated.setPassword("123456");
+		setUserOneUpdated();
 		when(iUsersRepository.save(userOneUpdated)).thenReturn(userOneUpdated);
 		assertSame(userOneUpdated, usersServiceImpl.update(userOneUpdated));
 		ArgumentCaptor<Users> captor = ArgumentCaptor.forClass(Users.class);
@@ -137,5 +114,53 @@ public class UsersServiceTest {
 		when(iUsersRepository.findAll()).thenReturn(List.of(userOneSaved, userTwoSaved));
 		assertEquals(List.of(userOneSaved, userTwoSaved), usersServiceImpl.getAll());
 		verify(iUsersRepository, times(1)).findAll();
+	}
+	
+	private Users setUserOneToSave() {
+		//set user one ToSave
+		userOneToSave.setEmailId("admin@abc.com");
+		userOneToSave.setFirstName("Admin");
+		userOneToSave.setLastName("Admin");
+		userOneToSave.setPassword("123456");
+		return userOneToSave;
+	}
+	
+	private Users setUserTwoToSave() {
+		//set user two ToSave
+		userTwoToSave.setEmailId("customer@abc.com");
+		userTwoToSave.setFirstName("Customer");
+		userTwoToSave.setLastName("Customer");
+		userTwoToSave.setPassword("123456");
+		return userTwoToSave;
+	}
+	
+	private Users setUserOneSaved() {
+		//set user one Saved
+		userOneSaved.setUsersId(1);
+		userOneSaved.setEmailId("admin@abc.com");
+		userOneSaved.setFirstName("Admin");
+		userOneSaved.setLastName("Admin");
+		userOneSaved.setPassword("123456");
+		return userOneSaved;
+	}
+	
+	private Users setUserTwoSaved() {
+		//set user two Saved
+		userTwoSaved.setUsersId(2);
+		userTwoSaved.setEmailId("customer@abc.com");
+		userTwoSaved.setFirstName("Customer");
+		userTwoSaved.setLastName("Customer");
+		userTwoSaved.setPassword("123456");
+		return userTwoSaved;
+	}
+	
+	private Users setUserOneUpdated() {
+		//set user one updated
+		userOneUpdated.setUsersId(1);
+		userOneUpdated.setEmailId("admin1@abc.com");
+		userOneUpdated.setFirstName("Admin1");
+		userOneUpdated.setLastName("Admin1");
+		userOneUpdated.setPassword("123456");
+		return userOneUpdated;
 	}
 }
