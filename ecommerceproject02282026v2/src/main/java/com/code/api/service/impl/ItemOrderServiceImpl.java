@@ -51,4 +51,9 @@ public class ItemOrderServiceImpl implements IItemOrderService {
 	public Optional<ItemOrder> getOrderAndItemOrderDetailsById(int orderId) {
 		return iItemOrderRepository.findOrderAndItemOrderDetailsById(orderId);
 	}
+
+	@Override
+	public Optional<ItemOrder> getOrderAndPaymentByRazorpayOrderId(String razorpayOrderId) {
+		return iItemOrderRepository.findOrderAndPaymentByRazorpayOrderId(razorpayOrderId);
+	}
 }

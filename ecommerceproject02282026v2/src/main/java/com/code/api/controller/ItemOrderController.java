@@ -52,6 +52,15 @@ public class ItemOrderController {
 		return dbItemOrder.get();
 	}
 	
+	@GetMapping("/razorpay/{razorpayOrderId}")
+	public ItemOrder getItemOrderByRazorpayOrderId(@PathVariable("razorpayOrderId") String razorpayOrderId) {
+		Optional<ItemOrder> dbItemOrder = iItemOrderService.getOrderAndPaymentByRazorpayOrderId(razorpayOrderId);
+		if (dbItemOrder.isEmpty()) {
+			throw new ResourceNotFoundException("ItemOrder", "razorpayOrderId", razorpayOrderId);
+		}
+		return dbItemOrder.get();
+	}
+	
 	@PostMapping("/placeorder")
 	public ResponseEntity<ItemOrder> placeOrder(@Valid @RequestBody ItemOrderRequestDto itemOrderRequestDto) {
 		Users users = null;

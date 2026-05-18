@@ -11,4 +11,6 @@ import com.code.api.entity.ItemOrder;
 public interface IItemOrderRepository extends JpaRepository<ItemOrder, Integer>{
 	@Query("SELECT i FROM ItemOrder i JOIN FETCH i.itemOrderDetailsList WHERE i.itemOrderId=:data")
 	Optional<ItemOrder> findOrderAndItemOrderDetailsById(@Param("data") int id);
+	@Query("SELECT i FROM ItemOrder i JOIN FETCH i.payment p WHERE p.razorpayOrderId=:data")
+	Optional<ItemOrder> findOrderAndPaymentByRazorpayOrderId(@Param("data") String razorpayOrderId);
 }

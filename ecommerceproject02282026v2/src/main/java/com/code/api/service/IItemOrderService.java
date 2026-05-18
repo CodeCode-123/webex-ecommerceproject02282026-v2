@@ -2,6 +2,9 @@ package com.code.api.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.repository.query.Param;
+
 import com.code.api.entity.ItemOrder;
 
 public interface IItemOrderService {
@@ -12,4 +15,5 @@ public interface IItemOrderService {
 	List<ItemOrder> getAll();
 	Optional<ItemOrder> getById(int id);
 	Optional<ItemOrder> getOrderAndItemOrderDetailsById(int orderId);
+	Optional<ItemOrder> getOrderAndPaymentByRazorpayOrderId(String razorpayOrderId);
 }
